@@ -1,0 +1,12 @@
+Priority: optional
+Maintainer: Nathan Neulinger <nneul@neulinger.org>
+Source: git-identity-helper
+Build-Depends: debhelper (>= 8)
+Standards-Version: 3.9.1
+Homepage: 
+
+Package: git-identity-helper
+Section: utils
+Architecture: any
+Description: This contains the git-identity-helper bash profile scripts.
+
