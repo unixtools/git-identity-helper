@@ -15,9 +15,9 @@ git () {
       fi
     fi
 
+    # Check if any configuration is set for current repo or globally
     gitid_cfg_name=`$gitpath config --get user.name`
     gitid_cfg_email=`$gitpath config --get user.email`
-
     if [ "$gitid_cfg_name" != "" -a "$gitid_cfg_email" != "" ]; then
         [ $debug != 0 ] && echo "name/email set in configuration"
         $gitpath ${@}
@@ -62,3 +62,5 @@ git () {
     $gitpath ${@}
     return
 }
+
+# vim: set expandtab: ts=4
