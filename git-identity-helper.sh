@@ -1,15 +1,18 @@
 git () {
     debug=1
 
-    gitpath=""
-    if [ -e /usr/bin/git ]; then
+    # 'which' may not be available by default on every machine
+    gitpath=$(which git 2>&1)
+    if [ ! -x "$gitpath" ]; then
+      if [ -e /usr/bin/git ]; then
         gitpath=/usr/bin/git
-    elif [ -e /bin/git ]; then
+      elif [ -e /bin/git ]; then
         gitpath=/bin/git
-    fi
-    if [ "$gitpath" = "" ]; then
-        echo "Couldn't find git."
-        return
+      fi
+      if [ "$gitpath" = "" ]; then
+          echo "Couldn't find git."
+          return
+      fi
     fi
 
     gitid_cfg_name=`$gitpath config --get user.name`
