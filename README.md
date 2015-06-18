@@ -21,4 +21,14 @@ the following sources of information:
     one that looks like an email address as the identity.
 
   * Potentially - look at who -u based on current tty and extract the source host, and then use current userid @ 
-    remote host. 
+    remote host. (Not sure this one is all that useful.)
+
+  * Other possibility - allow defining a table of source hosts if you have a consistent host:author mapping. Look up
+    in that table info from who -u or SSH_CLIENT / SSH_CONNECTION to obtain the author name. 
+
+  * Lastly, fall back to just executing git as is without setting any id in the environment. 
+
+In any of the above cases, will initial default to just using email address as both userid and name. It may 
+be worth trying to look up the userid portion of the email in passwd file, but I don't think that will typically 
+match up often enough to be worthwhile. 
+
