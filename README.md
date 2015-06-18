@@ -32,3 +32,7 @@ In any of the above cases, will initial default to just using email address as b
 be worth trying to look up the userid portion of the email in passwd file, but I don't think that will typically 
 match up often enough to be worthwhile. 
 
+
+Ideas:
+	Env var to request "prompting" - i.e. never allow it to use default behavior
+	Apply checks only on certain git operations?
