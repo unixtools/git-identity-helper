@@ -1,8 +1,8 @@
 git () {
-    debug=1
+    local debug=0
 
     # 'which' may not be available by default on every machine
-    gitpath=$(which git 2>&1)
+    local gitpath=$(which git 2>&1)
     if [ ! -x "$gitpath" ]; then
       if [ -e /usr/bin/git ]; then
         gitpath=/usr/bin/git
@@ -16,8 +16,8 @@ git () {
     fi
 
     # Check if any configuration is set for current repo or globally
-    gitid_cfg_name=`$gitpath config --get user.name`
-    gitid_cfg_email=`$gitpath config --get user.email`
+    local gitid_cfg_name=`$gitpath config --get user.name`
+    local gitid_cfg_email=`$gitpath config --get user.email`
     if [ "$gitid_cfg_name" != "" -a "$gitid_cfg_email" != "" ]; then
         [ $debug != 0 ] && echo "name/email set in configuration"
         $gitpath ${@}
@@ -32,8 +32,8 @@ git () {
         return
     fi
 
-    gitid_krb_user=`klist 2>&1 | grep "Default principal:" | awk '{ print $3 }' | tr A-Z a-z`
-    gitid_krb_name=`echo "$gitid_krb_user" | sed "s/@/ in /"`
+    local gitid_krb_user=`klist 2>&1 | grep "Default principal:" | awk '{ print $3 }' | tr A-Z a-z`
+    local gitid_krb_name=`echo "$gitid_krb_user" | sed "s/@/ in /"`
     if [ "$gitid_krb_user" != "" ]; then
         [ $debug != 0 ] && echo "name/email set via krb5 creds"
         (
@@ -45,8 +45,8 @@ git () {
     fi
 
     if [ "$SSH_AUTH_SOCK" != "" ]; then
-        gitid_ssh_user=`ssh-add -l 2>&1 | awk '{ print $3 }' | grep "@" | head -1`
-        gitid_ssh_name=`echo "$gitid_ssh_user" | sed "s/@/ on /"`
+        local gitid_ssh_user=`ssh-add -l 2>&1 | awk '{ print $3 }' | grep "@" | head -1`
+        local gitid_ssh_name=`echo "$gitid_ssh_user" | sed "s/@/ on /"`
         if [ "$gitid_ssh_user" != "" ]; then
             [ $debug != 0 ] && echo "name/email set via ssh key description"
             (
