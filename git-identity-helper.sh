@@ -27,7 +27,7 @@ git () {
     local gitid_cfg_email=`$gitpath config --get user.email`
     if [ "$gitid_cfg_name" != "" -a "$gitid_cfg_email" != "" ]; then
         [ $debug != 0 ] && echo "name/email set in configuration"
-        $gitpath ${@}
+        $gitpath "${@}"
         return
     fi
 
@@ -35,7 +35,7 @@ git () {
     # This would be useful if they were passed through from client ssh or similar
     if [ "$GIT_AUTHOR_NAME" != "" -a "$GIT_AUTHOR_EMAIL" != "" ]; then
         [ $debug != 0 ] && echo "name/email already set in environment"
-        $gitpath ${@}
+        $gitpath "${@}"
         return
     fi
 
@@ -46,7 +46,7 @@ git () {
         (
             export GIT_AUTHOR_EMAIL="$gitid_krb_user"
             export GIT_AUTHOR_NAME="$gitid_krb_name"
-            $gitpath ${@}
+            $gitpath "${@}"
         )
         return
     fi
@@ -59,14 +59,14 @@ git () {
             (
                 export GIT_AUTHOR_EMAIL="$gitid_ssh_user"
                 export GIT_AUTHOR_NAME="$gitid_ssh_name"
-                $gitpath ${@}
+                $gitpath "${@}"
             )
             return
         fi
     fi
 
     [ $debug != 0 ] && echo "falling back to git default behavior"
-    $gitpath ${@}
+    $gitpath "${@}"
     return
 }
 
