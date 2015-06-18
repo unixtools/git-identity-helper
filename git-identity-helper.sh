@@ -24,13 +24,23 @@ git () {
         return
     fi
 
+    # If git author name and email env vars already set, pass through as is
+    # This would be useful if they were passed through from client ssh or similar
+    if [ "$GIT_AUTHOR_NAME" != "" -a "$GIT_AUTHOR_EMAIL" != "" ]; then
+        [ $debug != 0 ] && echo "name/email already set in environment"
+        $gitpath ${@}
+        return
+    fi
+
     gitid_krb_user=`klist 2>&1 | grep "Default principal:" | awk '{ print $3 }' | tr A-Z a-z`
     gitid_krb_name=`echo "$gitid_krb_user" | sed "s/@/ in /"`
     if [ "$gitid_krb_user" != "" ]; then
         [ $debug != 0 ] && echo "name/email set via krb5 creds"
-        export GIT_AUTHOR_EMAIL="$gitid_krb_user"
-        export GIT_AUTHOR_NAME="$gitid_krb_name"
-        $gitpath ${@}
+        (
+            export GIT_AUTHOR_EMAIL="$gitid_krb_user"
+            export GIT_AUTHOR_NAME="$gitid_krb_name"
+            $gitpath ${@}
+        )
         return
     fi
 
@@ -39,9 +49,11 @@ git () {
         gitid_ssh_name=`echo "$gitid_ssh_user" | sed "s/@/ on /"`
         if [ "$gitid_ssh_user" != "" ]; then
             [ $debug != 0 ] && echo "name/email set via ssh key description"
-            export GIT_AUTHOR_EMAIL="$gitid_ssh_user"
-            export GIT_AUTHOR_NAME="$gitid_ssh_name"
-            $gitpath ${@}
+            (
+                export GIT_AUTHOR_EMAIL="$gitid_ssh_user"
+                export GIT_AUTHOR_NAME="$gitid_ssh_name"
+                $gitpath ${@}
+            )
             return
         fi
     fi
