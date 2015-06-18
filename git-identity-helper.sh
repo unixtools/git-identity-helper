@@ -1,3 +1,10 @@
+#
+# Project: git-identity-helper
+# Web: https://github.com/unixtools/git-identity-helper
+# License: Perl Artistic License and LGPL or contact author
+# Author: nneul@neulinger.org
+#
+
 git () {
     local debug=0
 
