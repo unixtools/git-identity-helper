@@ -32,7 +32,7 @@ git () {
     fi
 
     if [ "$SSH_AUTH_SOCK" != "" ]; then
-        gitid_ssh_user=`ssh-add -l 2>&1 | awk '{ print $3 }' | grep "@" | head -1 | tr A-Z a-z`
+        gitid_ssh_user=`ssh-add -l 2>&1 | awk '{ print $3 }' | grep "@" | head -1`
         gitid_ssh_name=`echo "$gitid_ssh_user" | sed "s/@/ on /"`
         if [ "$gitid_ssh_user" != "" ]; then
             [ $debug != 0 ] && echo "name/email set via ssh key description"
