@@ -1,8 +1,8 @@
 
 Summary: git-identity-helper Scripts
 Name: git-identity-helper
-Version: 1.0.0
-Release: 1
+Version: 1.1.0
+Release: 1%{?dist}
 License: Distributable
 Group: System Environment/Base
 BuildArch: noarch
