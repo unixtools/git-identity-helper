@@ -46,6 +46,8 @@ git () {
         (
             export GIT_AUTHOR_EMAIL="$gitid_krb_user"
             export GIT_AUTHOR_NAME="$gitid_krb_name"
+            export GIT_COMMITTER_EMAIL="$gitid_krb_user"
+            export GIT_COMMITTER_NAME="$gitid_krb_name"
             $gitpath "${@}"
         )
         return
@@ -59,6 +61,8 @@ git () {
             (
                 export GIT_AUTHOR_EMAIL="$gitid_ssh_user"
                 export GIT_AUTHOR_NAME="$gitid_ssh_name"
+                export GIT_COMMITTER_EMAIL="$gitid_ssh_user"
+                export GIT_COMMITTER_NAME="$gitid_ssh_name"
                 $gitpath "${@}"
             )
             return
