@@ -40,7 +40,7 @@ git () {
     fi
 
     local gitid_krb_user=`klist 2>&1 | grep "Default principal:" | awk '{ print $3 }' | tr A-Z a-z`
-    local gitid_krb_name=`echo "$gitid_krb_user" | sed "s/@/ in /"`
+    local gitid_krb_name=`echo "$gitid_krb_user" | sed "s/@/ at /"`
     if [ "$gitid_krb_user" != "" ]; then
         [ $debug != 0 ] && echo "name/email set via krb5 creds"
         (
