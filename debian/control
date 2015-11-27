@@ -7,6 +7,6 @@ Homepage:
 
 Package: git-identity-helper
 Section: utils
-Architecture: any
+Architecture: all
 Description: This contains the git-identity-helper bash profile scripts.
 

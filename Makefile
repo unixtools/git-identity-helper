@@ -17,7 +17,7 @@ dist:
 
 deb: dist
 	cp ../git-identity-helper-$(VERSION).tar.gz ../git-identity-helper_$(VERSION).orig.tar.gz
-	dpkg-buildpackage
+	dpkg-buildpackage -us -uc
 	rm ../git-identity-helper_$(VERSION).orig.tar.gz
 
 rpm: dist
