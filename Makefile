@@ -1,11 +1,14 @@
-VERSION=1.2.0
+VERSION=2.0.0
 TOP=`pwd`
 
 all:
 
 install:
 	mkdir -p $(DESTDIR)/etc/profile.d
+	mkdir -p $(DESTDIR)/usr/lib/git-identity-helper
 	cp git-identity-helper.sh $(DESTDIR)/etc/profile.d/git-identity-helper.sh
+	cp git-wrapper.sh $(DESTDIR)/usr/lib/git-identity-helper/git
+	chmod 755 $(DESTDIR)/usr/lib/git-identity-helper/git
 
 dist:
 	rm -rf /tmp/git-identity-helper-$(VERSION)
