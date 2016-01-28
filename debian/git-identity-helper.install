@@ -1,1 +1,2 @@
 /etc/profile.d/git-identity-helper.sh
+/usr/lib/git-identity-helper/git
