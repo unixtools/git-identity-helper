@@ -22,16 +22,14 @@ gitid_cfg_name=`$gitpath config --get user.name`
 gitid_cfg_email=`$gitpath config --get user.email`
 if [ "$gitid_cfg_name" != "" -a "$gitid_cfg_email" != "" ]; then
     [ $debug != 0 ] && echo "name/email set in configuration"
-    $gitpath "${@}"
-    exit 1
+    exec $gitpath "${@}"
 fi
 
 # If git author name and email env vars already set, pass through as is
 # This would be useful if they were passed through from client ssh or similar
 if [ "$GIT_AUTHOR_NAME" != "" -a "$GIT_AUTHOR_EMAIL" != "" ]; then
     [ $debug != 0 ] && echo "name/email already set in environment"
-    $gitpath "${@}"
-    exit 1
+    exec $gitpath "${@}"
 fi
 
 gitid_krb_user=`klist 2>&1 | grep "Default principal:" | awk '{ print $3 }' | tr A-Z a-z`
@@ -43,9 +41,8 @@ if [ "$gitid_krb_user" != "" ]; then
         export GIT_AUTHOR_NAME="$gitid_krb_name"
         export GIT_COMMITTER_EMAIL="$gitid_krb_user"
         export GIT_COMMITTER_NAME="$gitid_krb_name"
-        $gitpath "${@}"
+        exec $gitpath "${@}"
     )
-    exit 1
 fi
 
 if [ "$SSH_AUTH_SOCK" != "" ]; then
@@ -58,13 +55,12 @@ if [ "$SSH_AUTH_SOCK" != "" ]; then
             export GIT_AUTHOR_NAME="$gitid_ssh_name"
             export GIT_COMMITTER_EMAIL="$gitid_ssh_user"
             export GIT_COMMITTER_NAME="$gitid_ssh_name"
-            $gitpath "${@}"
+            exec $gitpath "${@}"
         )
-        exit 1
     fi
 fi
 
 [ $debug != 0 ] && echo "falling back to git default behavior"
-$gitpath "${@}"
+exec $gitpath "${@}"
 
 # vim: set expandtab: ts=4
