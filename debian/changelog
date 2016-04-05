@@ -1,3 +1,9 @@
+git-identity-helper (2.0.1-1) unstable; urgency=low
+
+  * fix incorrect exit codes
+
+ -- Nathan Neulinger <nneul@neulinger.org>  Tue, 05 Apr 2016 10:00:00 -0600
+
 git-identity-helper (2.0.0-1) unstable; urgency=low
 
   * updated to wrapper script instead of function
