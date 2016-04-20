@@ -7,6 +7,7 @@ Homepage:
 
 Package: git-identity-helper
 Section: utils
-Architecture: all
+Architecture: any
+Depends: libglib2.0-0
 Description: This contains the git-identity-helper bash profile scripts.
 
