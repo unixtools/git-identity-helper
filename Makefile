@@ -1,7 +1,10 @@
 VERSION=2.0.1
 TOP=`pwd`
 
-all:
+all: git-wrapper
+
+git-wrapper: git-wrapper.c
+	gcc -o git-wrapper git-wrapper.c `pkg-config --cflags glib-2.0` `pkg-config --libs glib-2.0`
 
 install:
 	mkdir -p $(DESTDIR)/etc/profile.d

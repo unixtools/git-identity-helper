@@ -3,3 +3,4 @@ debian/git-identity-helper.debhelper.log
 debian/git-identity-helper.substvars
 debian/git-identity-helper/
 debian/tmp/
+git-wrapper
