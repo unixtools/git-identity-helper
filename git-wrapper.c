@@ -34,8 +34,9 @@ void run_git(char *gitpath, char *argv[])
 char *expand_at(char *in)
 {
 	int cnt = 0;
+    int i;
 
-	for (int i = 0; i <= strlen(in); i++) {
+	for (i = 0; i <= strlen(in); i++) {
 		if (in[i] == '@') {
 			cnt++;
 		}
@@ -45,7 +46,7 @@ char *expand_at(char *in)
 	char *output = calloc(len, 1);
 
 	int j = 0;
-	for (int i = 0; i <= strlen(in); i++) {
+	for (i = 0; i <= strlen(in); i++) {
 		if (in[i] != '@') {
 			output[j++] = in[i];
 		} else {
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
 	char *tmpfname;
 	int len;
 	int res;
+    int i,j;
 	struct stat ts;
 
 	if (getenv("GIT_IDENTITY_HELPER_DEBUG")) {
@@ -143,7 +145,7 @@ int main(int argc, char *argv[])
 	 */
 	snprintf(cmd, cmdlen, "%s config --get user.name 2>&1", gitpath);
 	char *git_conf_user = backticks(cmd);
-	for (int i = 0; i <= strlen(git_conf_user); i++) {
+	for (i = 0; i <= strlen(git_conf_user); i++) {
 		if (git_conf_user[i] == '\r' || git_conf_user[i] == '\n') {
 			git_conf_user[i] = '\0';
 		}
@@ -154,7 +156,7 @@ int main(int argc, char *argv[])
 
 	snprintf(cmd, cmdlen, "%s config --get user.email 2>&1", gitpath);
 	char *git_conf_email = backticks(cmd);
-	for (int i = 0; i <= strlen(git_conf_email); i++) {
+	for (i = 0; i <= strlen(git_conf_email); i++) {
 		if (git_conf_email[i] == '\r' || git_conf_email[i] == '\n') {
 			git_conf_email[i] = '\0';
 		}
@@ -181,7 +183,7 @@ int main(int argc, char *argv[])
 	/* Try to load from kerberos credentials */
 	char *git_krb_email = backticks("klist 2>&1 | grep 'Default principal:' | awk '{ print $3 }'");
 	git_krb_email = g_ascii_strdown(git_krb_email, -1);
-	for (int i = 0; i <= strlen(git_krb_email); i++) {
+	for (i = 0; i <= strlen(git_krb_email); i++) {
 		if (git_krb_email[i] == '\r' || git_krb_email[i] == '\n') {
 			git_krb_email[i] = '\0';
 		}
@@ -221,7 +223,7 @@ int main(int argc, char *argv[])
 
 		char *git_ssh_email = backticks("ssh-add -l 2>&1 | awk '{ print $3 }' | grep '@' | head -1");
 		git_ssh_email = g_ascii_strdown(git_ssh_email, -1);
-		for (int i = 0; i <= strlen(git_ssh_email); i++) {
+		for (i = 0; i <= strlen(git_ssh_email); i++) {
 			if (git_ssh_email[i] == '\r' || git_ssh_email[i] == '\n') {
 				git_ssh_email[i] = '\0';
 			}
