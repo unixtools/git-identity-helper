@@ -1,7 +1,7 @@
 
 Summary: git-identity-helper Scripts
 Name: git-identity-helper
-Version: 2.0.1
+Version: 2.1.0
 Release: 1%{?dist}
 License: Distributable
 Group: System Environment/Base
@@ -30,7 +30,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 mkdir -p $RPM_BUILD_ROOT/etc/profile.d
 mkdir -p $RPM_BUILD_ROOT/usr/lib/git-identity-helper
 cp -pr git-identity-helper.sh $RPM_BUILD_ROOT/etc/profile.d/
-cp -pr git-wrapper.sh $RPM_BUILD_ROOT/usr/lib/git-identity-helper/git
+cp -pr git-wrapper $RPM_BUILD_ROOT/usr/lib/git-identity-helper/git
 
 %clean
 %{__rm} -rf %{buildroot}

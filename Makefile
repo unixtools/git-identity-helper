@@ -1,4 +1,4 @@
-VERSION=2.0.1
+VERSION=2.1.0
 TOP=`pwd`
 
 all: git-wrapper
@@ -10,11 +10,11 @@ tidy:
 	indent -linux -l120 git-wrapper.c
 	rm -f git-wrapper.c~
 
-install:
+install: git-wrapper
 	mkdir -p $(DESTDIR)/etc/profile.d
 	mkdir -p $(DESTDIR)/usr/lib/git-identity-helper
 	cp git-identity-helper.sh $(DESTDIR)/etc/profile.d/git-identity-helper.sh
-	cp git-wrapper.sh $(DESTDIR)/usr/lib/git-identity-helper/git
+	cp git-wrapper $(DESTDIR)/usr/lib/git-identity-helper/git
 	chmod 755 $(DESTDIR)/usr/lib/git-identity-helper/git
 
 dist:
