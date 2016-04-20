@@ -34,7 +34,7 @@ void run_git(char *gitpath, char *argv[])
 char *expand_at(char *in)
 {
 	int cnt = 0;
-    int i;
+	int i;
 
 	for (i = 0; i <= strlen(in); i++) {
 		if (in[i] == '@') {
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 	char *tmpfname;
 	int len;
 	int res;
-    int i,j;
+	int i, j;
 	struct stat ts;
 
 	if (getenv("GIT_IDENTITY_HELPER_DEBUG")) {
@@ -117,7 +117,9 @@ int main(int argc, char *argv[])
 		res = stat(tmpfname, &ts);
 		if (!res) {
 			gitpath = tmpfname;
-			printf("found git: %s\n", gitpath);
+			if (debug) {
+				printf("found git: %s\n", gitpath);
+			}
 			break;
 		}
 
