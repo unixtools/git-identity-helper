@@ -41,6 +41,6 @@ rpm: dist
 		-D "_specdir $(TOP)/rpmtmp/SPECS" \
 		-D "_srcrpmdir $(TOP)/rpmtmp/SRPMS" \
 		rpm/git-identity-helper.spec
-	cp $(TOP)/rpmtmp/RPMS/noarch/* ../
+	cp $(TOP)/rpmtmp/RPMS/*/* ../
 	cp $(TOP)/rpmtmp/SRPMS/* ../
 	rm -rf rpmtmp

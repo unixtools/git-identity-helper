@@ -5,7 +5,6 @@ Version: 2.1.0
 Release: 1%{?dist}
 License: Distributable
 Group: System Environment/Base
-BuildArch: noarch
 Requires: glib2
 
 Packager: Nathan Neulinger <nneul@neulinger.org>
