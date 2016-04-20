@@ -6,6 +6,10 @@ all: git-wrapper
 git-wrapper: git-wrapper.c
 	gcc -o git-wrapper git-wrapper.c `pkg-config --cflags glib-2.0` `pkg-config --libs glib-2.0`
 
+tidy:
+	indent -linux -l120 git-wrapper.c
+	rm -f git-wrapper.c~
+
 install:
 	mkdir -p $(DESTDIR)/etc/profile.d
 	mkdir -p $(DESTDIR)/usr/lib/git-identity-helper
