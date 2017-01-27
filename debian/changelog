@@ -1,3 +1,9 @@
+git-identity-helper (2.2.0-1) unstable; urgency=low
+
+  * reorder to prefer ssh
+
+ -- Nathan Neulinger <nneul@neulinger.org>  Fri, 27 Jan 2017 10:00:00 -0600
+
 git-identity-helper (2.1.0-1) unstable; urgency=low
 
   * change over to c based implementation
