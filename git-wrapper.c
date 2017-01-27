@@ -182,45 +182,7 @@ int main(int argc, char *argv[])
 		run_git(gitpath, argv);
 	}
 
-	/* Try to load from kerberos credentials */
-	char *git_krb_email = backticks("klist 2>&1 | grep 'Default principal:' | awk '{ print $3 }'");
-	git_krb_email = g_ascii_strdown(git_krb_email, -1);
-	for (i = 0; i <= strlen(git_krb_email); i++) {
-		if (git_krb_email[i] == '\r' || git_krb_email[i] == '\n') {
-			git_krb_email[i] = '\0';
-		}
-	}
-	if (debug) {
-		fprintf(stderr, "user from kerberos: %s\n", git_krb_email);
-	}
-
-	if (strlen(git_krb_email) > 0) {
-		char *git_krb_name = expand_at(git_krb_email);
-		if (debug) {
-			fprintf(stderr, "name from kerberos: %s\n", git_krb_name);
-		}
-
-		if (strlen(git_krb_email) > 0 && strlen(git_krb_name) > 0) {
-			int maxlen = strlen(git_krb_name) + 30;
-			char *buf1 = calloc(maxlen, 1);
-			char *buf2 = calloc(maxlen, 1);
-			char *buf3 = calloc(maxlen, 1);
-			char *buf4 = calloc(maxlen, 1);
-
-			snprintf(buf1, maxlen, "GIT_AUTHOR_EMAIL=%s", git_krb_email);
-			snprintf(buf2, maxlen, "GIT_COMMITTER_EMAIL=%s", git_krb_email);
-			snprintf(buf3, maxlen, "GIT_AUTHOR_NAME=%s", git_krb_name);
-			snprintf(buf4, maxlen, "GIT_COMMITTER_NAME=%s", git_krb_name);
-
-			putenv(buf1);
-			putenv(buf2);
-			putenv(buf3);
-			putenv(buf4);
-
-			run_git(gitpath, argv);
-		}
-	}
-
+    /* Load from SSH agent if available since this is almost certainly individual user connection */
 	if (getenv("SSH_AUTH_SOCK")) {
 
 		char *git_ssh_email = backticks("ssh-add -l 2>&1 | awk '{ print $3 }' | grep '@' | head -1");
@@ -261,6 +223,45 @@ int main(int argc, char *argv[])
 			}
 		}
 
+	}
+
+	/* Try to load from kerberos credentials */
+	char *git_krb_email = backticks("klist 2>&1 | grep 'Default principal:' | awk '{ print $3 }'");
+	git_krb_email = g_ascii_strdown(git_krb_email, -1);
+	for (i = 0; i <= strlen(git_krb_email); i++) {
+		if (git_krb_email[i] == '\r' || git_krb_email[i] == '\n') {
+			git_krb_email[i] = '\0';
+		}
+	}
+	if (debug) {
+		fprintf(stderr, "user from kerberos: %s\n", git_krb_email);
+	}
+
+	if (strlen(git_krb_email) > 0) {
+		char *git_krb_name = expand_at(git_krb_email);
+		if (debug) {
+			fprintf(stderr, "name from kerberos: %s\n", git_krb_name);
+		}
+
+		if (strlen(git_krb_email) > 0 && strlen(git_krb_name) > 0) {
+			int maxlen = strlen(git_krb_name) + 30;
+			char *buf1 = calloc(maxlen, 1);
+			char *buf2 = calloc(maxlen, 1);
+			char *buf3 = calloc(maxlen, 1);
+			char *buf4 = calloc(maxlen, 1);
+
+			snprintf(buf1, maxlen, "GIT_AUTHOR_EMAIL=%s", git_krb_email);
+			snprintf(buf2, maxlen, "GIT_COMMITTER_EMAIL=%s", git_krb_email);
+			snprintf(buf3, maxlen, "GIT_AUTHOR_NAME=%s", git_krb_name);
+			snprintf(buf4, maxlen, "GIT_COMMITTER_NAME=%s", git_krb_name);
+
+			putenv(buf1);
+			putenv(buf2);
+			putenv(buf3);
+			putenv(buf4);
+
+			run_git(gitpath, argv);
+		}
 	}
 
 	/* Fall back at the end and just run git normally */
