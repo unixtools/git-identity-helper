@@ -182,10 +182,11 @@ int main(int argc, char *argv[])
 		run_git(gitpath, argv);
 	}
 
-    /* Load from SSH agent if available since this is almost certainly individual user connection */
+	/* Load from SSH agent if available since this is almost certainly individual user connection */
 	if (getenv("SSH_AUTH_SOCK")) {
 
-		char *git_ssh_email = backticks("ssh-add -l 2>&1 | awk '{ print $3 }' | grep '@' | head -1");
+		/* using -l worked on most instances, but not on SUSE with it's F'd up backlevel ssh version */
+		char *git_ssh_email = backticks("ssh-add -L 2>&1 | awk '{ print $3 }' | grep '@' | head -1");
 		git_ssh_email = g_ascii_strdown(git_ssh_email, -1);
 		for (i = 0; i <= strlen(git_ssh_email); i++) {
 			if (git_ssh_email[i] == '\r' || git_ssh_email[i] == '\n') {
